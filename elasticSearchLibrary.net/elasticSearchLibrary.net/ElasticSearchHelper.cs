@@ -59,7 +59,7 @@ namespace elasticSearchLibrary.net
             try
             {
                 var esIndexSettings = new IndexSettings();
-                esIndexSettings.NumberOfShards = 5;
+                esIndexSettings.NumberOfShards = 1;
                 esIndexSettings.NumberOfReplicas = 1;
 
                 esClient.CreateIndex(c => c.Index("library")
@@ -111,6 +111,53 @@ namespace elasticSearchLibrary.net
             esClient.Index(bk3);
 
             Console.WriteLine("Books added to library index ");
+        }
+
+        public List<Book> SearchForWordsMatching(string matchWord, string searchField = "title")
+        {
+            if (String.IsNullOrEmpty(matchWord))
+            {
+                Console.WriteLine("You have to enter a keyword to search for");
+                throw new ApplicationException("Keyword not supplied for search operation");
+            }
+
+            Console.WriteLine("Searching field: {0}", searchField);
+
+            List<Book> results = null;
+            try
+            {
+                var queryResult = esClient.Search<Book>(es => es.Query(
+                            p => p.Match(m => m.OnField(searchField).Query(matchWord))  
+                            ));
+
+                Console.WriteLine("Number of matches for the word: '{0}' is: {1}", matchWord, queryResult.Hits.Count());
+
+                if (queryResult.Hits.Count() > 0)
+                {
+                    results = queryResult.Documents.ToList<Book>();
+                    
+
+                    if (results != null && results.Count() > 0)
+                    {
+
+
+                        foreach (var book in results)
+                        {
+                            Console.WriteLine("Book Title: {0} - By {1}", book.Title, book.Author);
+                        }
+                    }
+                }
+                    
+
+                Console.WriteLine("----------------------------------");
+
+                return results;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error while searching. {0}", ex.Message);
+                throw;
+            }
         }
     }
 }
