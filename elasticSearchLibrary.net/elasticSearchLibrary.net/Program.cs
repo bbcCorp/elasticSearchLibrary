@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using elasticSearchLibrary.Core;
-using CsvHelper;
 using System.IO;
 using System.Diagnostics;
 
@@ -30,10 +29,10 @@ namespace elasticSearchLibrary.net
             esHelper = new ElasticSearchHelper();
 
             // If you do not have a library index, use this function to create and initiate the library index
-            //CreateIndexAndAddSomeBooks();
+            CreateIndexAndAddSomeBooks();
             
             // Use this to seed the index with some books from the file BookList.csv
-            //UploadFromBookList();
+            UploadFromBookList();
 
             SearchDemo();
 
@@ -114,12 +113,11 @@ namespace elasticSearchLibrary.net
 
             while (!fileReader.EndOfStream)
             {
-                var line = fileReader.ReadLine();
-                var values = line.Split(',');
+                var values = parseCSV(fileReader.ReadLine());
 
                 if(values.Count() >=4 )
                 {
-                    var book = new Book { Author = values[2], ContentId = "ISBN " + values[0], Genre = values[3], Title = values[1] };
+                    var book = new Book { Author = values[2].Trim(), ContentId = "ISBN " + values[0].Trim(), Genre = values[3].Trim(), Title = values[1].Trim() };
 
                     listOfBooks.Add(book);
                     
@@ -142,6 +140,99 @@ namespace elasticSearchLibrary.net
             string elapsedTime = String.Format("{0:00} hr :{1:00} min :{2:00}.{3:00} sec", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
 
             Console.WriteLine("{0} books added in {1}.", listOfBooks.Count, elapsedTime);
+        }
+
+        /// <summary>
+        ///  A simple function to parse a CSV line and return the string tokens
+        ///  This function also takes care of tokens with comma enclosed in double quotes
+        /// </summary>
+        /// <param name="csv"></param>
+        /// <returns></returns>
+        static List<String> parseCSV(string csv)
+        {
+            List<String> tokens = new List<string>();
+
+            int counter = 0;
+            int iBegin = 0;
+            int iEnd = 0;
+
+            bool inString = false;
+            bool escapeFollowingQuote = false;
+
+            if (csv[csv.Length - 1] != ',')
+                csv = csv + ',';
+
+            while (counter < csv.Length)
+            {
+                // Condition 1: Regular comma 
+                if ((csv[counter] == ',') && (inString == false))
+                {
+                    iEnd = counter;
+
+                    if (iBegin != iEnd)
+                    {
+                        string tokenToAdd = csv.Substring(iBegin, iEnd - iBegin).Trim();
+
+                        if (tokenToAdd.StartsWith("\"") && tokenToAdd.EndsWith("\"") && tokenToAdd.Length > 2)
+                            tokenToAdd = tokenToAdd.Substring(1, tokenToAdd.Length - 2);
+
+                        tokens.Add(tokenToAdd);
+                    }
+                    else
+                        tokens.Add("");
+
+                    counter++;
+                    iBegin = counter;
+                    iEnd = counter;
+
+                    continue;
+                }
+
+                // Condition 2: Handling start of a double quoted string 
+                if ((csv[counter] == '"'))
+                {
+                    if (inString == false)
+                    {
+                        inString = true;
+                        escapeFollowingQuote = false;
+
+
+                        iBegin = counter;
+                        iEnd = counter;
+
+                        counter++;
+                        continue;
+                    }
+                    else
+                    {
+                        // Condition 3: Within a double quoted string, handle escape sequence of double quotes 
+                        if (escapeFollowingQuote == true)
+                        {
+                            escapeFollowingQuote = false;
+                        }
+                        else
+                        {
+                            if (((counter + 1) < csv.Length) && (csv[counter + 1] == '"'))
+                                escapeFollowingQuote = true;
+
+                            if (((counter + 1) < csv.Length) && (csv[counter + 1] == ','))
+                            {
+                                inString = false;
+                            }
+
+
+                        }
+
+                        counter++;
+                        continue;
+
+                    }
+                }
+
+                counter++;
+            }
+
+            return tokens;
         }
     }
 }
