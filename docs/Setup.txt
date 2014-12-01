@@ -1,4 +1,22 @@
+Getting started with Elasticsearch
+===================================
+
 This document is a quick intro to elasticsearch. We will discuss about a very basic setup and then some quick operations focusing on our operation of interest - search.
+
+
+Following resources helped me to get started with elasticsearch
+
+PluralSight course on Elasticsearch
+http://www.pluralsight.com/courses/elasticsearch-for-dotnet-developers
+
+
+Elasticsearch - The Definitive Guide
+http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/intro.html
+
+
+Elasticsearch is document oriented like many of the no-sql databases. It stores entire objects or documents, and indexes the contents of each document in order to make them searchable. In Elasticsearch, you index, search, sort and filter documents.
+
+Elasticsearch uses JSON as the serialization format for documents. 
 
 Basic Setup of Elastic Search
 -----------------------------------
@@ -7,11 +25,22 @@ Edited elasticsearch.yml to put in this configuration
 cluster.name: elasticsearchDemo
 node.name: "BBC-ES-001"
 
+
+NOTE:
+A node is a running instance of Elasticsearch. 
+
+A cluster is a group of nodes with the same cluster.name that are working together to share data and to provide failover and scale, although a single node can form a cluster all by itself.
+
+Clients can communicate with Elasticsearch over port 9200 using a set of RESTful API. The nodes in the cluster also communicate with each other over port 9300. So this port needs to be open.
+
 Set JAVA_HOME to the path for jre7
 
 Started the elastic search service
 
-Tested the setup by putting in a HTTP GET request for localhost:9200
+Test the setup by putting in a HTTP GET request for localhost:9200. 
+
+http://localhost:9200
+
 Got the following response
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=UTF-8
@@ -106,7 +135,7 @@ Now, enter a book information
 
 POST books/book/1
 {
-	"content-id" 	: 	"ISBN 978-0-307-27812-8",			
+	"content-id" 	: 	 ,			
 	"title" 	: 	"The Hidden Reality",			
 	"author" 	: 	"Brian Greene",
 	"genre"		:	"Popular Science",

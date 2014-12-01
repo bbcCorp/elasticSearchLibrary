@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CB85A9
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticSearchLibrary.Core", "elasticSearchLibrary.Core\elasticSearchLibrary.Core.csproj", "{DA0D9F30-54FC-4CCD-9D0A-C61855DDD4B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{AF05EF38-9C8F-425F-96F7-2DC92A462643}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF05EF38-9C8F-425F-96F7-2DC92A462643}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF05EF38-9C8F-425F-96F7-2DC92A462643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA0D9F30-54FC-4CCD-9D0A-C61855DDD4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0D9F30-54FC-4CCD-9D0A-C61855DDD4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA0D9F30-54FC-4CCD-9D0A-C61855DDD4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA0D9F30-54FC-4CCD-9D0A-C61855DDD4B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

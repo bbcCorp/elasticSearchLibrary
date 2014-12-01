@@ -1,0 +1,13 @@
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\elasticSearchLibrary.Core.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\elasticSearchLibrary.Core.pdb
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\Elasticsearch.Net.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\Nest.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\Newtonsoft.Json.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\Elasticsearch.Net.pdb
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\Elasticsearch.Net.xml
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\Nest.pdb
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\Nest.xml
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\bin\Debug\Newtonsoft.Json.xml
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\obj\Debug\elasticSearchLibrary.Core.csprojResolveAssemblyReference.cache
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\obj\Debug\elasticSearchLibrary.Core.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core\obj\Debug\elasticSearchLibrary.Core.pdb
