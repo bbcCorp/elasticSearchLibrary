@@ -1,0 +1,16 @@
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\elasticSearchLibrary.Core.Test.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\elasticSearchLibrary.Core.Test.pdb
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\elasticSearchLibrary.Core.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\Nest.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\Elasticsearch.Net.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\Newtonsoft.Json.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\elasticSearchLibrary.Core.pdb
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\Nest.pdb
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\Nest.xml
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\Elasticsearch.Net.pdb
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\Elasticsearch.Net.xml
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\Newtonsoft.Json.xml
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\obj\Debug\elasticSearchLibrary.Core.Test.csprojResolveAssemblyReference.cache
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\obj\Debug\elasticSearchLibrary.Core.Test.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\obj\Debug\elasticSearchLibrary.Core.Test.pdb
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.Core.Test\bin\Debug\elasticSearchLibrary.Core.Test.dll.config

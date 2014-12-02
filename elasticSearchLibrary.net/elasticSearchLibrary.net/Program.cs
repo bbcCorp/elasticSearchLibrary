@@ -21,12 +21,11 @@ namespace elasticSearchLibrary.net
 
     class Program
     {
-        private static ElasticSearchHelper esHelper;
+        private static ILibraryRepository repo;
 
         static void Main(string[] args)
-        {
-            
-            esHelper = new ElasticSearchHelper();
+        { 
+            repo = new LibraryRepository();
 
             // If you do not have a library index, use this function to create and initiate the library index
             CreateIndexAndAddSomeBooks();
@@ -36,8 +35,6 @@ namespace elasticSearchLibrary.net
 
             SearchDemo();
 
-            Console.WriteLine("Press any key to exit ... ");
-            Console.ReadKey();
         }
 
         /// <summary>
@@ -48,7 +45,10 @@ namespace elasticSearchLibrary.net
             Console.WriteLine("Let's create an index called: library ");
 
             // Use this method to create a new index called "library"
-            esHelper.CreateIndex("library");
+            if (repo.CreateLibraryIndex())
+            {
+                Console.WriteLine("Index has been created.");
+            }
 
             Console.WriteLine("Let's index a few books ... ");
 
@@ -80,9 +80,9 @@ namespace elasticSearchLibrary.net
                 PublishDate = new DateTime(2013, 9, 24)
             };
 
-            esHelper.IndexBook(bk1);
-            esHelper.IndexBook(bk2);
-            esHelper.IndexBook(bk3);
+            repo.AddBook(bk1);
+            repo.AddBook(bk2);
+            repo.AddBook(bk3);
 
         }
 
@@ -93,16 +93,43 @@ namespace elasticSearchLibrary.net
             //Now we search
             String searchForWord = String.Empty;
 
-            Console.WriteLine("Demo of full text search. Enter the keyword to search for. ");
-            searchForWord = Console.ReadLine();
-            var result = esHelper.SearchForWordsMatching(searchForWord);
 
 
             Console.WriteLine("Enter the author to search for: ");
-            searchForWord = Console.ReadLine();
-            result = esHelper.SearchForWordsMatching(searchForWord, "author");
+            searchForWord = Console.ReadLine().Trim().ToLower();
+
+            foreach (var book in repo.GetBooksByAuthor(searchForWord, 20))
+            {
+                Console.WriteLine("\n * Book Title: {0} - By {1} *", book.Title, book.Author);
+            }
+            Console.WriteLine("----------------------------------");
+
+            Console.WriteLine("Demo of full text search. Enter the keyword to search for. Type quit to exit");
+            Console.WriteLine("\nSearch > ");
+            searchForWord = Console.ReadLine().Trim().ToLower();
+
+            if (searchForWord.Equals("quit"))
+                return;
+
+            do
+            {
+                foreach (var book in repo.GetBooks(searchForWord,20))
+                {
+                    Console.WriteLine("\n * Book Title: {0} - By {1} *", book.Title, book.Author);
+                }
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine("\nSearch > ");
+                searchForWord = Console.ReadLine();
+            }
+            while (!searchForWord.Trim().ToLower().Equals("quit"));
+
+
+
         }
 
+        /// <summary>
+        /// Function to seed library index with books from files\BookList.csv
+        /// </summary>
         static void UploadFromBookList()
         {
             Console.WriteLine("Let's index a few books ... ");
@@ -131,7 +158,10 @@ namespace elasticSearchLibrary.net
 
             foreach (var book in listOfBooks)
             {
-                esHelper.IndexBook(book);
+                if(! repo.AddBook(book))
+                {
+                    Console.WriteLine("Book was already present in index. Record updated");
+                }
             }
 
             // Get the elapsed time as a TimeSpan value.
