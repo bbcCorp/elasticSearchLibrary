@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticSearchLibrary.Core",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticSearchLibrary.Core.Test", "elasticSearchLibrary.Core.Test\elasticSearchLibrary.Core.Test.csproj", "{A4D68CAE-6182-4738-B6AA-363085D9E7A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticSearchLibrary.Web", "elasticSearchLibrary.Web\elasticSearchLibrary.Web.csproj", "{47447DE8-665F-46F1-8204-5D35F1EF1DFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{A4D68CAE-6182-4738-B6AA-363085D9E7A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D68CAE-6182-4738-B6AA-363085D9E7A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4D68CAE-6182-4738-B6AA-363085D9E7A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47447DE8-665F-46F1-8204-5D35F1EF1DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47447DE8-665F-46F1-8204-5D35F1EF1DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47447DE8-665F-46F1-8204-5D35F1EF1DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47447DE8-665F-46F1-8204-5D35F1EF1DFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
