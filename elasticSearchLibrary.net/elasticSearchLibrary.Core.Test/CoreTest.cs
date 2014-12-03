@@ -1,5 +1,7 @@
 ﻿using System;
+using Nest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace elasticSearchLibrary.Core.Test
 {
@@ -71,6 +73,21 @@ namespace elasticSearchLibrary.Core.Test
 
 
             Assert.IsTrue(books.Count > 15);
+        }
+
+        [TestMethod]
+        public void TestAggregation_ExpectNonZeroResult()
+        {
+            var lib = new LibraryRepository();
+
+            var refinements = new List<string>();
+            refinements.Add("author");
+            refinements.Add("genre");
+
+            var result = lib.SearchBookWithAggregation("potter", "", refinements, 20);
+
+            Assert.IsTrue(result.Aggregations.Count > 0 );
+
         }
 
     }

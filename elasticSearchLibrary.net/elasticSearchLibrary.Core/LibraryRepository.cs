@@ -104,7 +104,7 @@ namespace elasticSearchLibrary.Core
             }
             catch (Exception ex)
             {
-                throw new ApplicationException ( String.Format("Error creating index. Message: {0}", ex.Message));
+                throw new ApplicationException(String.Format("Error creating index. Message: {0}", ex.Message));
             }
 
         }
@@ -117,7 +117,7 @@ namespace elasticSearchLibrary.Core
             return result.Acknowledged;
         }
 
-        private Task<ISearchResponse<Book>> ElasticSearch_Book_Aync(string criteria = "", string searchField = "", int count = 10)
+        public Task<ISearchResponse<Book>> ElasticSearch_Book_Aync(string criteria = "", string searchField = "", int count = 10)
         {
             Task<ISearchResponse<Book>> tSearch = Task.Factory.StartNew(() =>
             {
@@ -130,7 +130,7 @@ namespace elasticSearchLibrary.Core
                 }
                 else
                 {
-                    if(String.IsNullOrEmpty(searchField))
+                    if (String.IsNullOrEmpty(searchField))
                         searchField = "_all";
 
                     queryResult = esClient.Search<Book>(es => es.From(0).Size(count).Type("book")
@@ -145,6 +145,117 @@ namespace elasticSearchLibrary.Core
 
         }
 
+        public ISearchResponse<Book> SearchBookWithAggregation(string criteria = "", string searchField = "", List<string> refinements = null, int count = 10)
+        {
+            QueryContainer _query;
+
+            if (String.IsNullOrEmpty(criteria))
+            {
+                _query = new MatchAllQuery();
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(searchField))
+                {
+                    searchField = "_all";
+                }
+
+                _query = new TermQuery()
+                {
+                    Field = searchField,
+                    Value = criteria
+                };
+            }
+
+            SearchRequest searchRequest = new SearchRequest
+            {
+                
+                From = 0,
+                Size = count,
+                Query = _query
+            };
+
+            if (refinements != null && refinements.Count > 0)
+            {
+                var _aggregations = new Dictionary<string, IAggregationContainer>();
+
+                foreach (var field in refinements)
+                {
+                    _aggregations.Add(field, new AggregationContainer
+                    {
+                        Terms = new TermsAggregator
+                        {
+                            Field = field
+                        }
+                    });
+                }
+
+                searchRequest.Aggregations = _aggregations;
+
+            }
+
+            return esClient.Search<Book>(searchRequest);
+        }
+
+        public Task<ISearchResponse<Book>> SearchBookWithAggregation_Aync(string criteria = "", string searchField = "", List<string> refinements = null, int count = 10)
+        {
+            Task<ISearchResponse<Book>> tSearch = Task.Factory.StartNew(() =>
+            {
+
+                QueryContainer _query;
+
+                if (String.IsNullOrEmpty(criteria))
+                {
+                    _query = new MatchAllQuery();
+                }
+                else
+                {
+                    if (String.IsNullOrEmpty(searchField))
+                    {
+                        searchField = "_all";
+                    }
+
+                    _query = new TermQuery()
+                    {
+                        Field = searchField,
+                        Value = criteria
+                    };
+                }
+
+                SearchRequest searchRequest = new SearchRequest
+                {
+                    From = 0,
+                    Size = count,
+                    Query = _query
+                };
+
+                if (refinements != null && refinements.Count > 0)
+                {
+                    var _aggregations = new Dictionary<string, IAggregationContainer>();
+
+                    foreach (var field in refinements)
+                    {
+                        _aggregations.Add(field, new AggregationContainer
+                        {
+                            Terms = new TermsAggregator
+                            {
+                                Field = field                               
+                            }
+                        });
+                    }
+
+                    searchRequest.Aggregations = _aggregations;
+
+                }
+
+                var qResult = esClient.Search<Book>(searchRequest);
+
+                return qResult;
+            });
+
+            return tSearch;
+
+        }
 
         /// <summary>
         /// Method to get list of books that matches defined criteria
@@ -166,7 +277,7 @@ namespace elasticSearchLibrary.Core
         /// <param name="count">Optional. Default is 10 result</param>
         /// <param name="criteria">Optional. Pass full text search criteria</param>
         /// <returns></returns>
-        public Task<List<Book>> GetBooksAync(string criteria = "",int count = 10)
+        public Task<List<Book>> GetBooksAync(string criteria = "", int count = 10)
         {
             Task<List<Book>> tSearch = Task.Factory.StartNew(() =>
             {
@@ -186,7 +297,7 @@ namespace elasticSearchLibrary.Core
         /// <returns>Task<ISearchResponse<Book>></returns>
         public Task<ISearchResponse<Book>> SearchBooksAync(string criteria = "", int count = 10)
         {
-                return ElasticSearch_Book_Aync(criteria, "", count);
+            return ElasticSearch_Book_Aync(criteria, "", count);
 
         }
 
@@ -217,7 +328,7 @@ namespace elasticSearchLibrary.Core
         public Task<ISearchResponse<Book>> SearchBooksByAuthorAync(string author, int count = 10)
         {
 
-                return ElasticSearch_Book_Aync(author, "author", count);
+            return ElasticSearch_Book_Aync(author, "author", count);
         }
 
         public long GetBookCount(string criteria = "")
@@ -226,7 +337,7 @@ namespace elasticSearchLibrary.Core
             {
                 Task<ISearchResponse<Book>> tSearch = Task.Factory.StartNew(() =>
                 {
-                    return ElasticSearch_Book_Aync(criteria,"_all").Result;
+                    return ElasticSearch_Book_Aync(criteria, "", 10).Result;
                 });
 
                 tSearch.Wait();
@@ -255,7 +366,7 @@ namespace elasticSearchLibrary.Core
             }
             catch (Exception ex)
             {
-                throw new ApplicationException( String.Format( "Error indexing book : {0}", ex.Message));
+                throw new ApplicationException(String.Format("Error indexing book : {0}", ex.Message));
             }
 
 

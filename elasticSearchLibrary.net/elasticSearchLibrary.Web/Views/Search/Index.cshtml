@@ -1,0 +1,71 @@
+﻿@model Nest.ISearchResponse<elasticSearchLibrary.Core.Book>
+
+@{
+    ViewBag.Title = "Library Home";
+}
+
+<h2>@ViewBag.Title</h2>
+<h5>Hey, we are at a library. Let's search for some books... </h5>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div name="basic_search_div" class="col-lg-12">
+        <div class="input-group" style="width:800px;text-align:center;margin:0 auto;">
+
+            <input class="form-control input-lg" title="Enter a search keyword" placeholder="Search keyword" type="text" name="q" value="@ViewBag.Query">
+
+            <span class="input-group-btn">
+                <button class="btn btn-lg btn-danger" type="submit">Search</button>
+            </span>
+        </div>
+    </div>
+}
+
+
+
+@if (ViewBag.Query != null)
+{
+    <div>
+        <h3>Search Results for <i> @ViewBag.Query </i> </h3>
+        <hr/>
+
+        <p>
+            <span> Showing <b>@Model.Hits.Count()</b>  out of <b>@Model.Total</b>   results </span>
+        </p>
+
+        @Html.Partial("BookList", Model.Documents.ToList<elasticSearchLibrary.Core.Book>() )
+    </div>
+
+    @section RefinementPanel
+{
+        @if (Model.Aggregations.Count > 0)
+        {
+            <ul class="nav" id="main-menu">
+                @foreach (var filters in Model.Aggregations)
+                {
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> @filters.Key<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            @foreach (var item in ((Nest.Bucket)(filters.Value)).Items)
+                            {
+                                var refinement = (Nest.KeyItem)(item);
+                                
+                                <li>
+                                    <a href="#">@refinement.Key <b> [ @refinement.DocCount ]</b></a>
+                                </li>
+                            }
+
+                            
+                        </ul>
+                    </li>
+                }
+
+            </ul>
+        }
+
+
+    }
+}

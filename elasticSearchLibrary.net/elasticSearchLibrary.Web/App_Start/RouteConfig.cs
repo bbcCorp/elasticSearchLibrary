@@ -14,9 +14,15 @@ namespace elasticSearchLibrary.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Library",
+                url: "library/{action}/{id}",
+                defaults: new { controller = "Book", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}/{q}",
+                defaults: new { controller = "Search", action = "Index", q = UrlParameter.Optional }
             );
         }
     }

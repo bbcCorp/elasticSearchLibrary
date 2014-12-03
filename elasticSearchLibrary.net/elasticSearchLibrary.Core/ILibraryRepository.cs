@@ -20,6 +20,12 @@ namespace elasticSearchLibrary.Core
         Task<List<Book>> GetBooksByAuthorAync(string author, int count=0);
         Task<ISearchResponse<Book>> SearchBooksByAuthorAync(string author, int count=0);
 
+        Task<ISearchResponse<Book>> ElasticSearch_Book_Aync(string criteria = "", string searchField = "", int count = 10);
+
+        Task<ISearchResponse<Book>> SearchBookWithAggregation_Aync(string criteria = "", string searchField = "", List<string> refinements = null, int count = 10);
+
+        ISearchResponse<Book> SearchBookWithAggregation(string criteria = "", string searchField = "", List<string> refinements = null, int count = 10);
+
         bool AddBook(Book bk);
 
         bool EditBook(int BookId, Book bk);
