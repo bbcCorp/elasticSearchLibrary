@@ -32,9 +32,20 @@ namespace elasticSearchLibrary.Web.Controllers
             refinements.Add("genre");
 
 
-            Dictionary<string, string> filters = null;
+            Dictionary<string, string> SearchFilters = null;
 
-            var ResultTask = _repo.SearchBookWithAggregationFilters(q, "", refinements, filters, 20);
+            if (!String.IsNullOrEmpty(filter))
+            {
+                var filterArray = HttpUtility.UrlDecode(filter).Split(new char[] { ':' });
+                if(filterArray.Count() == 2)
+                {
+                    SearchFilters = new Dictionary<string, string>();
+                    SearchFilters.Add(filterArray[0], filterArray[1]);
+                }
+            }
+
+            
+            var ResultTask = _repo.SearchBookWithAggregationFilters(q, "", refinements, SearchFilters, 20);
             return View(ResultTask);
 
         }

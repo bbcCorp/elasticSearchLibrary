@@ -41,8 +41,8 @@
             </div>
             <div class="col-md-6"> Time taken: @Model.ElapsedMilliseconds milliseconds </div>
         </div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         @Html.Partial("BookList", Model.Documents.ToList<elasticSearchLibrary.Core.Book>())
     </div>
 
@@ -51,6 +51,7 @@
         @if (Model.Aggregations.Count > 0)
         {
             <ul class="nav" id="main-menu">
+
                 @foreach (var filters in Model.Aggregations)
                 {
                     <li>
@@ -61,7 +62,7 @@
                                 var refinement = (Nest.KeyItem)(item);
                                 string refinementText = refinement.Key + " [" + refinement.DocCount + "] ";
                                 string filterText = filters.Key + ":" + refinement.Key;
-                                    
+
                                 <li>
                                     @Html.ActionLink(refinementText, "Result", new { q = @ViewBag.Query, filter = @filterText });
                                 </li>
@@ -69,6 +70,10 @@
                         </ul>
                     </li>
                 }
+
+                <li>
+                    @Html.ActionLink("All Results", "Result", new { q = @ViewBag.Query }, new { @class = "fa fa-check-square-o" });
+                </li>
 
             </ul>
         }

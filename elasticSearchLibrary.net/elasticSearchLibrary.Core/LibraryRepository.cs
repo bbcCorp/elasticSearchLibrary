@@ -275,7 +275,10 @@ namespace elasticSearchLibrary.Core
 
         }
 
-        public ISearchResponse<Book> SearchBookWithAggregationFilters(string criteria = "", string searchField = "", List<string> refinements = null, Dictionary<string,string> filters = null, int count = 10)
+        public ISearchResponse<Book> SearchBookWithAggregationFilters(string criteria = "", string searchField = "", 
+            List<string> refinements = null, 
+            Dictionary<string,string> SearchFilters = null, 
+            int count = 10)
         {
             QueryContainer _query;
 
@@ -333,9 +336,16 @@ namespace elasticSearchLibrary.Core
 
             }
 
-            if (filters != null && filters.Count > 0)
+            if (SearchFilters != null && SearchFilters.Count > 0)
             {
-                searchRequest.Filter = new FilterContainer();
+                var searchFilterConfig = new FilterContainer();
+
+                foreach(var sf in SearchFilters)
+                {
+                    searchFilterConfig = Filter<Book>.Term( sf.Key, sf.Value );
+                }
+
+                searchRequest.Filter = searchFilterConfig;
             }
 
             return esClient.Search<Book>(searchRequest);
