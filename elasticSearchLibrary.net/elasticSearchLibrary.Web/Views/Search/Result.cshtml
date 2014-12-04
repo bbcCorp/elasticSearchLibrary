@@ -1,35 +1,31 @@
 ﻿@model Nest.ISearchResponse<elasticSearchLibrary.Core.Book>
 
 @{
-    ViewBag.Title = "Library Home";
+    ViewBag.Title = "Search Result";
 }
 
-<h2>@ViewBag.Title</h2>
-<h5>Hey, we are at a library. Let's search for some books... </h5>
-
-
-@using (Html.BeginForm("Result", "Search"))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <div name="basic_search_div" class="col-lg-12">
-        <br />
-        <br />
+
         <div class="row">
-            <div class="col-lg-2"></div>
-            <div class="input-group col-lg-8" style="margin:0 auto;">
+            <div class="col-md-6">
+                <h3>Search Results for <i> @ViewBag.Query </i> </h3>
+            </div>
+            <div class="col-md-6 input-group" style="width:400px;text-align:center;margin:0 auto;">
 
                 <input class="form-control input-lg" title="Enter a search keyword" placeholder="Search keyword" type="text" name="q" value="@ViewBag.Query">
 
                 <span class="input-group-btn">
-                    <button class="btn btn-lg btn-danger" type="submit">Search</button>
+                    <button class="btn btn-lg btn-danger" type="submit"><i class="fa fa-search"></i></button>
                 </span>
             </div>
 
         </div>
-        <br />
-        <br />
+
     </div>
 }
 
@@ -37,14 +33,16 @@
 
 @if (ViewBag.Query != null)
 {
+    <hr />
     <div>
-        <h3>Search Results for <i> @ViewBag.Query </i> </h3>
-        <hr />
-
-        <p>
-            <span> Showing <b>@Model.Hits.Count()</b>  out of <b>@Model.Total</b>   results </span>
-        </p>
-
+        <div class="row">
+            <div class="col-md-6">
+                <span> Showing <b>@Model.Hits.Count()</b>  out of <b>@Model.Total</b>   results </span>
+            </div>
+            <div class="col-md-6"> Time taken: @Model.ElapsedMilliseconds milliseconds </div>
+        </div>
+        <br/>
+        <br/>
         @Html.Partial("BookList", Model.Documents.ToList<elasticSearchLibrary.Core.Book>())
     </div>
 
@@ -56,18 +54,18 @@
                 @foreach (var filters in Model.Aggregations)
                 {
                     <li>
-                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> @filters.Key<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-caret-square-o-down"></i> @filters.Key<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             @foreach (var item in ((Nest.Bucket)(filters.Value)).Items)
                             {
                                 var refinement = (Nest.KeyItem)(item);
-
+                                string refinementText = refinement.Key + " [" + refinement.DocCount + "] ";
+                                string filterText = filters.Key + ":" + refinement.Key;
+                                    
                                 <li>
-                                    <a href="#">@refinement.Key <b> [ @refinement.DocCount ]</b></a>
+                                    @Html.ActionLink(refinementText, "Result", new { q = @ViewBag.Query, filter = @filterText });
                                 </li>
                             }
-
-
                         </ul>
                     </li>
                 }

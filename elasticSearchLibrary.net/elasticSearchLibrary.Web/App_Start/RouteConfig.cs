@@ -20,9 +20,16 @@ namespace elasticSearchLibrary.Web
             );
 
             routes.MapRoute(
+                name: "Search",
+                url: "search/{action}",
+                defaults: new { controller = "Search", action = "Index", q = UrlParameter.Optional, filter = UrlParameter.Optional }
+
+            );
+
+            routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{q}",
-                defaults: new { controller = "Search", action = "Index", q = UrlParameter.Optional }
+                url: "{controller}/{action}",
+                defaults: new { controller = "Search", action = "Index" }
             );
         }
     }

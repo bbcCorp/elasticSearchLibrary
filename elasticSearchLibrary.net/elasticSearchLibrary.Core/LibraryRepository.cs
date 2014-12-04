@@ -158,13 +158,22 @@ namespace elasticSearchLibrary.Core
                 if (String.IsNullOrEmpty(searchField))
                 {
                     searchField = "_all";
+
+                    _query = new MatchQuery()
+                    {
+                        Field = searchField,
+                        Query = criteria
+                    };
+                }
+                else
+                {
+                    _query = new TermQuery()
+                    {
+                        Field = searchField,
+                        Value = criteria
+                    };
                 }
 
-                _query = new TermQuery()
-                {
-                    Field = searchField,
-                    Value = criteria
-                };
             }
 
             SearchRequest searchRequest = new SearchRequest
@@ -213,13 +222,22 @@ namespace elasticSearchLibrary.Core
                     if (String.IsNullOrEmpty(searchField))
                     {
                         searchField = "_all";
+
+                        _query = new MatchQuery()
+                        {
+                            Field = searchField,
+                            Query = criteria
+                        };
+                    }
+                    else
+                    {
+                        _query = new TermQuery()
+                        {
+                            Field = searchField,
+                            Value = criteria
+                        };
                     }
 
-                    _query = new TermQuery()
-                    {
-                        Field = searchField,
-                        Value = criteria
-                    };
                 }
 
                 SearchRequest searchRequest = new SearchRequest
@@ -255,6 +273,72 @@ namespace elasticSearchLibrary.Core
 
             return tSearch;
 
+        }
+
+        public ISearchResponse<Book> SearchBookWithAggregationFilters(string criteria = "", string searchField = "", List<string> refinements = null, Dictionary<string,string> filters = null, int count = 10)
+        {
+            QueryContainer _query;
+
+            if (String.IsNullOrEmpty(criteria))
+            {
+                _query = new MatchAllQuery();
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(searchField))
+                {
+                    searchField = "_all";
+
+                    _query = new MatchQuery()
+                    {
+                        Field = searchField,
+                        Query = criteria
+                    };
+                }
+                else
+                {
+                    _query = new TermQuery()
+                    {
+                        Field = searchField,
+                        Value = criteria
+                    };
+                }
+
+            }
+
+            SearchRequest searchRequest = new SearchRequest
+            {
+
+                From = 0,
+                Size = count,
+                Query = _query
+            };
+
+            if (refinements != null && refinements.Count > 0)
+            {
+                var _aggregations = new Dictionary<string, IAggregationContainer>();
+
+                foreach (var field in refinements)
+                {
+                    _aggregations.Add(field, new AggregationContainer
+                    {
+                        Terms = new TermsAggregator
+                        {
+                            Field = field
+                        }
+                    });
+                }
+
+                searchRequest.Aggregations = _aggregations;
+
+            }
+
+            if (filters != null && filters.Count > 0)
+            {
+                searchRequest.Filter = new FilterContainer();
+            }
+
+            return esClient.Search<Book>(searchRequest);
         }
 
         /// <summary>

@@ -2,8 +2,10 @@ C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\ela
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\elasticSearchLibrary.net.exe
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\elasticSearchLibrary.net.pdb
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\Elasticsearch.Net.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\elasticSearchLibrary.Core.dll
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\Nest.dll
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\Newtonsoft.Json.dll
+C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\elasticSearchLibrary.Core.pdb
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\Elasticsearch.Net.pdb
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\Elasticsearch.Net.xml
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\Nest.pdb
@@ -12,5 +14,3 @@ C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\ela
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\obj\Debug\elasticSearchLibrary.net.csprojResolveAssemblyReference.cache
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\obj\Debug\elasticSearchLibrary.net.exe
 C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\obj\Debug\elasticSearchLibrary.net.pdb
-C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\elasticSearchLibrary.Core.dll
-C:\Practise.NET\elasticsearch\elasticsearch-library\elasticSearchLibrary.net\elasticSearchLibrary.net\bin\Debug\elasticSearchLibrary.Core.pdb

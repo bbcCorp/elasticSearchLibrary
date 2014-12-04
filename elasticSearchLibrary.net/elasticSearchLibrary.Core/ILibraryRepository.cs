@@ -12,6 +12,16 @@ namespace elasticSearchLibrary.Core
         bool CreateLibraryIndex();
         bool DropLibraryIndex();
 
+
+        bool AddBook(Book bk);
+
+        bool EditBook(int BookId, Book bk);
+
+        bool RemoveBook(int BookId);
+
+        long GetBookCount(string criteria = "");
+
+
         List<Book> GetBooks(string criteria,int count=0);
         Task<List<Book>> GetBooksAync(string criteria, int count=0);
 
@@ -25,13 +35,8 @@ namespace elasticSearchLibrary.Core
         Task<ISearchResponse<Book>> SearchBookWithAggregation_Aync(string criteria = "", string searchField = "", List<string> refinements = null, int count = 10);
 
         ISearchResponse<Book> SearchBookWithAggregation(string criteria = "", string searchField = "", List<string> refinements = null, int count = 10);
+        ISearchResponse<Book> SearchBookWithAggregationFilters(string criteria = "", string searchField = "", List<string> refinements = null, Dictionary<string, string> filters = null, int count = 10);
+        
 
-        bool AddBook(Book bk);
-
-        bool EditBook(int BookId, Book bk);
-
-        bool RemoveBook(int BookId);
-
-        long GetBookCount(string criteria = "");
     }
 }

@@ -17,7 +17,13 @@ namespace elasticSearchLibrary.Web.Controllers
         }
 
         // GET: Search
-        public ActionResult Index(string q)
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        // GET: Search
+        public ActionResult Result(string q, string filter)
         {
             ViewBag.Query = q;
 
@@ -25,9 +31,12 @@ namespace elasticSearchLibrary.Web.Controllers
             refinements.Add("author");
             refinements.Add("genre");
 
-            var ResultTask = _repo.SearchBookWithAggregation_Aync(q, "", refinements , 20);
 
-            return View(ResultTask.Result);
+            Dictionary<string, string> filters = null;
+
+            var ResultTask = _repo.SearchBookWithAggregationFilters(q, "", refinements, filters, 20);
+            return View(ResultTask);
+
         }
     }
 }
