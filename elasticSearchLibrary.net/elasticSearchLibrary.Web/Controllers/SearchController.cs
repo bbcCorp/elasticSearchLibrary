@@ -1,7 +1,9 @@
 ﻿using elasticSearchLibrary.Core;
+using elasticSearchLibrary.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -48,6 +50,25 @@ namespace elasticSearchLibrary.Web.Controllers
             var ResultTask = _repo.SearchBookWithAggregationFilters(q, "", refinements, SearchFilters, 20);
             return View(ResultTask);
 
+        }
+
+        [HttpGet]
+        public ActionResult AdvancedSearch(string q)
+        {
+            return View();
+        }
+
+        public ActionResult AdvancedSearchResult(List<AdvancedSearchFilter> filters)
+        {
+            if (filters == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest , "Search parameters are required to see results");
+
+            var refinements = new List<string>();
+            refinements.Add("author");
+            refinements.Add("genre");
+
+            var searchResult = _repo.MultiMatchANDSearch(filters, refinements, null, 20);
+            return PartialView(searchResult);
         }
     }
 }

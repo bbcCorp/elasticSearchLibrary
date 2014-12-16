@@ -1,4 +1,5 @@
-﻿using System;
+﻿using elasticSearchLibrary.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,16 +9,26 @@ namespace elasticSearchLibrary.Web.Controllers
 {
     public class BookController : Controller
     {
+        private ILibraryRepository _repo;
+
+        public BookController(ILibraryRepository repository)
+        {
+            _repo = repository;
+        }
+
+
         // GET: Book
         public ActionResult Index()
         {
-            return View();
+            var books = _repo.GetBooks("", 10);
+            return View(books);
         }
 
         // GET: Book/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View();
+            var book = _repo.GetBook(id);
+            return View(book);
         }
 
         // GET: Book/Create

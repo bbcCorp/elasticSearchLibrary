@@ -195,11 +195,14 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Search\BookList.cshtml" />
     <Content Include="Views\Search\Result.cshtml" />
+    <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Book\Details.cshtml" />
+    <Content Include="Views\Search\AdvancedSearch.cshtml" />
+    <Content Include="Views\Search\AdvancedSearchResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Book\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

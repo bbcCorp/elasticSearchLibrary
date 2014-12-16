@@ -1,4 +1,5 @@
-﻿using Nest;
+﻿using elasticSearchLibrary.Core.Model;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -364,6 +365,22 @@ namespace elasticSearchLibrary.Core
             return tResult.Result;
         }
 
+        public Book GetBook(string id)
+        {
+            Task<ISearchResponse<Book>> tBookSearch = Task.Factory.StartNew<ISearchResponse<Book>>((BookId) =>
+            {
+
+                String _id = (string)BookId;
+
+                return esClient.Search<Book>(es => es.Type("book").Query(q => q.Term(b => b.OnField(f => f.ContentId).Value(_id))));
+
+            },id);
+
+            if (tBookSearch.Result != null && tBookSearch.Result.Total == 1)
+                return tBookSearch.Result.Documents.First<Book>();
+            else
+                return null;
+        }
 
         /// <summary>
         /// Async method to get list of books that matches defined criteria
@@ -381,6 +398,70 @@ namespace elasticSearchLibrary.Core
             return tSearch;
 
         }
+
+        public ISearchResponse<Book> MultiMatchANDSearch(List<AdvancedSearchFilter> SearchCriteria, List<string> refinements = null, Dictionary<string, string> SearchFilters = null, int count = 10)
+        {
+            QueryContainer _query = null;
+
+            foreach(var rec in SearchCriteria)
+            {
+                if ((!String.IsNullOrEmpty(rec.SearchField)) && (!String.IsNullOrEmpty(rec.SearchField)))
+                {
+                    var qry = new MatchQuery()
+                    {
+                        Field = rec.SearchField,
+                        Query = rec.SearchQuery
+                    };
+
+                    if (_query == null)
+                        _query = qry;
+                    else
+                        _query = _query && qry;
+                }
+            }
+
+            SearchRequest searchRequest = new SearchRequest
+            {
+
+                From = 0,
+                Size = count,
+                Query = _query
+            };
+
+            if (refinements != null && refinements.Count > 0)
+            {
+                var _aggregations = new Dictionary<string, IAggregationContainer>();
+
+                foreach (var field in refinements)
+                {
+                    _aggregations.Add(field, new AggregationContainer
+                    {
+                        Terms = new TermsAggregator
+                        {
+                            Field = field
+                        }
+                    });
+                }
+
+                searchRequest.Aggregations = _aggregations;
+
+            }
+
+            if (SearchFilters != null && SearchFilters.Count > 0)
+            {
+                var searchFilterConfig = new FilterContainer();
+
+                foreach (var sf in SearchFilters)
+                {
+                    searchFilterConfig = Filter<Book>.Term(sf.Key, sf.Value);
+                }
+
+                searchRequest.Filter = searchFilterConfig;
+            }
+
+            return esClient.Search<Book>(searchRequest);
+        }
+
 
         /// <summary>
         /// This API is similar to GetBooksAync except that it returns the raw ISearchResponse object

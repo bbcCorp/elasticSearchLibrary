@@ -1,0 +1,22 @@
+﻿@model Nest.ISearchResponse<elasticSearchLibrary.Core.Book>
+
+@{
+    
+    ViewBag.Title = "Advanced Search Result";
+}
+
+@if(Model !=null )
+{
+    <hr/>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-1">
+                <span>Showing <b>@Model.Hits.Count()</b> out of <b>@Model.Total</b> results</span>
+            </div>
+            <div class="col-md-5">Time taken: @Model.ElapsedMilliseconds milliseconds</div>
+        </div>
+        <br/>
+        <br/>
+        @Html.Partial("BookList", Model.Documents)
+    </div>
+}

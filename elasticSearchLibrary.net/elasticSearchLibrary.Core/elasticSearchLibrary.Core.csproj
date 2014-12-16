@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ILibraryRepository.cs" />
     <Compile Include="LibraryRepository.cs" />
+    <Compile Include="Model\AdvancedSearchFilter.cs" />
     <Compile Include="Model\Book.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

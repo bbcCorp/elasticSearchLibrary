@@ -1,4 +1,5 @@
-﻿using Nest;
+﻿using elasticSearchLibrary.Core.Model;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace elasticSearchLibrary.Core
         bool CreateLibraryIndex();
         bool DropLibraryIndex();
 
+        Book GetBook(string id);
 
         bool AddBook(Book bk);
 
@@ -36,7 +38,7 @@ namespace elasticSearchLibrary.Core
 
         ISearchResponse<Book> SearchBookWithAggregation(string criteria = "", string searchField = "", List<string> refinements = null, int count = 10);
         ISearchResponse<Book> SearchBookWithAggregationFilters(string criteria = "", string searchField = "", List<string> refinements = null, Dictionary<string, string> filters = null, int count = 10);
-        
 
+        ISearchResponse<Book> MultiMatchANDSearch(List<AdvancedSearchFilter> SearchCriteria, List<string> refinements = null, Dictionary<string, string> SearchFilters = null, int count = 10);
     }
 }
