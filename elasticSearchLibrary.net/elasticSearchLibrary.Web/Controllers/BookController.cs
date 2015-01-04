@@ -39,13 +39,15 @@ namespace elasticSearchLibrary.Web.Controllers
 
         // POST: Book/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Book bk)
         {
             try
             {
                 // TODO: Add insert logic here
+                if(_repo.AddBook(bk))
+                    return RedirectToAction("Index");
 
-                return RedirectToAction("Index");
+                return View();
             }
             catch
             {
@@ -56,18 +58,26 @@ namespace elasticSearchLibrary.Web.Controllers
         // GET: Book/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var book = _repo.GetBookByID(id);
+
+            if (book == null)
+                return RedirectToAction("HttpStatus404");
+
+            return View(book);
+
         }
 
         // POST: Book/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Book bk)
         {
             try
             {
                 // TODO: Add update logic here
+                if(_repo.EditBook(id, bk))
+                    return RedirectToAction("Index");
 
-                return RedirectToAction("Index");
+                return View();
             }
             catch
             {

@@ -9,20 +9,26 @@ namespace elasticSearchLibrary.Core
 {
     public class Book
     {
-        [DisplayName("content-id")]
+        [DisplayName("Record ID")]
+        public Int32 Id { get; set; }
+
+        [DisplayName("ISBN")]
         public String ContentId { get; set; }
 
-        [DisplayName("title")]
+        [DisplayName("Title")]
         public String Title { get; set; }
 
-        [DisplayName("author")]
+        [DisplayName("Author")]
         public String Author { get; set; }
 
-        [DisplayName("genre")]
+        [DisplayName("Genre")]
         public String Genre { get; set; }
 
-        [DisplayName("publish-date")]
+        [DisplayName("Published Date")]
         public DateTime PublishDate { get; set; }
+
+        [DisplayName("Overview")]
+        public DateTime Overview { get; set; }
 
     }
 }

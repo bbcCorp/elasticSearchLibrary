@@ -16,7 +16,8 @@ namespace elasticSearchLibrary.Core
         private ConnectionSettings esConnection;
         private ElasticClient esClient;
 
-        private String indexName = "library";
+        private const String C_INDEXNAME = "library";
+        private const String C_BOKTYPENAME = "book";
 
         public LibraryRepository()
         {
@@ -70,7 +71,7 @@ namespace elasticSearchLibrary.Core
         /// <summary>
         /// Use this function to create a new Elasticsearch index
         /// </summary>
-        /// <param name="indexName"></param>
+        /// <param name="C_INDEXNAME"></param>
         public bool CreateLibraryIndex()
         {
             try
@@ -81,7 +82,7 @@ namespace elasticSearchLibrary.Core
                     esIndexSettings.NumberOfShards = 1;
                     esIndexSettings.NumberOfReplicas = 1;
 
-                    return esClient.CreateIndex(c => c.Index(indexName)
+                    return esClient.CreateIndex(c => c.Index(C_INDEXNAME)
                                                 .InitializeUsing(esIndexSettings)
                                                 .AddMapping<Book>(m => m.MapFromAttributes())
                                         );
@@ -113,7 +114,7 @@ namespace elasticSearchLibrary.Core
 
         public bool DropLibraryIndex()
         {
-            var result = esClient.DeleteIndex(indexName);
+            var result = esClient.DeleteIndex(C_INDEXNAME);
 
             return result.Acknowledged;
         }
@@ -372,9 +373,27 @@ namespace elasticSearchLibrary.Core
 
                 String _id = (string)BookId;
 
-                return esClient.Search<Book>(es => es.Type("book").Query(q => q.Term(b => b.OnField(f => f.ContentId).Value(_id))));
+                return esClient.Search<Book>(es => es.Type(C_BOKTYPENAME).Query(q => q.Term(b => b.OnField(f => f.ContentId).Value(_id))));
 
             },id);
+
+            if (tBookSearch.Result != null && tBookSearch.Result.Total == 1)
+                return tBookSearch.Result.Documents.First<Book>();
+            else
+                return null;
+        }
+
+
+        public Book GetBookByID(int id)
+        {
+            Task<ISearchResponse<Book>> tBookSearch = Task.Factory.StartNew<ISearchResponse<Book>>((BookId) =>
+            {
+
+                int _id = (int) BookId;
+
+                return esClient.Search<Book>(es => es.Type(C_BOKTYPENAME).Query(q => q.Term(b => b.OnField(f => f.Id).Value(_id))));
+
+            }, id);
 
             if (tBookSearch.Result != null && tBookSearch.Result.Total == 1)
                 return tBookSearch.Result.Documents.First<Book>();
@@ -551,7 +570,9 @@ namespace elasticSearchLibrary.Core
         {
             var tIndexBook = Task.Factory.StartNew(() =>
             {
-                return esClient.Index(bk);
+                return esClient.Index(bk, i=>i.Index(C_INDEXNAME)
+                                              .Type(C_BOKTYPENAME)
+                                              .Id(bk.Id));
             });
 
             return tIndexBook;
@@ -559,8 +580,9 @@ namespace elasticSearchLibrary.Core
 
         public Boolean EditBook(int BookId, Book bk)
         {
-
-
+            var status =  esClient.Index(bk, i => i.Index(C_INDEXNAME)
+                                             .Type(C_BOKTYPENAME)
+                                             .Id(BookId));
             return true;
         }
 

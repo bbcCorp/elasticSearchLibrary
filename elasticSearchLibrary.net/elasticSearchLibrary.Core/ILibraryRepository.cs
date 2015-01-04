@@ -14,6 +14,7 @@ namespace elasticSearchLibrary.Core
         bool DropLibraryIndex();
 
         Book GetBook(string id);
+        Book GetBookByID(int id);
 
         bool AddBook(Book bk);
 

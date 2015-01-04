@@ -54,6 +54,7 @@ namespace elasticSearchLibrary.net
 
             var bk1 = new Book()
             {
+                Id = 1,
                 ContentId = "ISBN 978-0-307-27812-8",
                 Author = "Brian Greene",
                 Title = "The Hidden Reality",
@@ -64,6 +65,7 @@ namespace elasticSearchLibrary.net
 
             var bk2 = new Book()
             {
+                Id = 2,
                 ContentId = "ISBN-13: 9781451675047",
                 Author = "Richard Dawkins, Dave McKean",
                 Title = "The Magic of Reality: How We Know What's Really True",
@@ -73,6 +75,7 @@ namespace elasticSearchLibrary.net
 
             var bk3 = new Book()
             {
+                Id = 3,
                 ContentId = "ISBN-13: 9780062225795",
                 Author = "Richard Dawkins",
                 Title = "An Appetite for Wonder: The Making of a Scientist",
@@ -138,13 +141,15 @@ namespace elasticSearchLibrary.net
 
             var fileReader = new StreamReader(File.OpenRead(@"..\..\files\BookList.csv"));
 
+            int startIndex = 5;
+
             while (!fileReader.EndOfStream)
             {
                 var values = parseCSV(fileReader.ReadLine());
 
                 if(values.Count() >=4 )
                 {
-                    var book = new Book { Author = values[2].Trim(), ContentId = "ISBN " + values[0].Trim(), Genre = values[3].Trim(), Title = values[1].Trim() };
+                    var book = new Book { Id=startIndex++, Author = values[2].Trim(), ContentId = "ISBN " + values[0].Trim(), Genre = values[3].Trim(), Title = values[1].Trim() };
 
                     listOfBooks.Add(book);
                     

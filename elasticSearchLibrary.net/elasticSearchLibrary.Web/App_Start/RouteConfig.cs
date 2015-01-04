@@ -14,6 +14,12 @@ namespace elasticSearchLibrary.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "404",
+                "404",
+                new { controller = "Commons", action = "HttpStatus404" }
+            );
+
+            routes.MapRoute(
                 name: "Library",
                 url: "library/{action}/{id}",
                 defaults: new { controller = "Book", action = "Index", id = UrlParameter.Optional }

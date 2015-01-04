@@ -27,10 +27,11 @@
                 
                 @Html.ActionLink("ElasticsearchLib", "Index", "Search", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div style="color: white;
-padding: 15px 50px 5px 50px;
-float: right;
-font-size: 16px;"> <i class="fa fa-book fa-2x"></i> &nbsp; &nbsp;  All libraries should be this searchable ...  &nbsp;</div>
+            <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;"> 
+                @Html.ActionLink(" ", "Index", "Book", new { area = "" }, new { @class = "fa fa-book fa-2x" })
+                &nbsp; &nbsp;  
+                All libraries should be this searchable ...  &nbsp;
+            </div>
         </nav>
         <!-- /. NAV TOP  -->
 
